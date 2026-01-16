@@ -125,26 +125,26 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
                       <Table className="w-full min-w-[700px] table-fixed border-separate border-spacing-y-2 border-spacing-x-0">
                         <TableHeader className="[&_tr]:bg-[#F9FAFB]">
                           <TableRow className="text-xs font-semibold uppercase tracking-wide text-[#111827]">
-                            <TableHead className="h-[48px] sm:h-[53px] w-[85px] px-2 sm:px-3 align-middle text-left border-r border-[#E5E7EB] rounded-tl-md rounded-bl-md">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[70px] px-2 sm:px-3 align-middle text-left border-r border-[#E5E7EB] rounded-tl-md rounded-bl-md">
                               Circuits
                             </TableHead>
-                            <TableHead className="h-[48px] sm:h-[53px] w-[212px] px-2 sm:px-3 align-middle text-left border-r border-[#E5E7EB]">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[150px] px-2 sm:px-3 align-middle text-left border-r border-[#E5E7EB]">
                               Exercise
                             </TableHead>
-                            <TableHead className="h-[48px] sm:h-[53px] w-[100px] px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[70px] px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
                               Sets
                             </TableHead>
-                            <TableHead className="h-[48px] sm:h-[53px] w-[120px] px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[70px] px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
                               Reps
                             </TableHead>
-                            <TableHead className="h-[48px] sm:h-[53px] w-[203px] px-2 sm:px-3 align-middle text-left border-r border-[#E5E7EB]">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[350px] px-2 sm:px-3 align-middle text-left ">
                               Notes
                             </TableHead>
-                            <TableHead className="h-[48px] sm:h-[53px] w-[52px] px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
-                              Del
+                            <TableHead className="h-[48px] sm:h-[53px] w-[52px] px-2 sm:px-3 align-middle text-center ">
+
                             </TableHead>
                             <TableHead className="h-[48px] sm:h-[53px] w-[52px] px-2 sm:px-3 align-middle text-center rounded-tr-md rounded-br-md">
-                              Rep
+
                             </TableHead>
                           </TableRow>
                         </TableHeader>
@@ -156,6 +156,8 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
                                   ? `${exercise.notes.slice(0, 30)}...`
                                   : exercise.notes
 
+                                const exerciseTitle = exercise.name.length > 20 ? `${exercise.name.slice(0, 20)}...` : exercise.name
+
                               return (
                               <TableRow
                                 key={index}
@@ -166,7 +168,7 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
                                   {exercise.circuit}
                                 </TableCell>
                                 <TableCell className="px-2 sm:px-3 align-middle border-r border-[#E5E7EB]">
-                                  {exercise.name}
+                                  {exerciseTitle}
                                 </TableCell>
                                 <TableCell className="px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
                                   {exercise.sets}
@@ -187,14 +189,14 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
                                     className="h-8 w-8"
                                     onClick={() => deleteExercise(currentWeekData.week, day.day, index)}
                                   >
-                                    <Trash2Icon className="w-4 h-4" />
+                                    <Trash2Icon className="w-4 h-4 text-[#D1CDCD]" />
                                   </Button>
                                 </TableCell>
                                 <TableCell className="px-2 sm:px-3 align-middle text-center rounded-br-md">
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8"
+                                    className="h-8 w-8 "
                                     onClick={(e) =>
                                       moveExercise(
                                         currentWeekData.week,
@@ -205,7 +207,7 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
                                     }
                                     title="Click to move down, Shift+Click to move up"
                                   >
-                                    <ArrowUpDownIcon className="w-4 h-4" />
+                                    <ArrowUpDownIcon className="w-4 h-4 text-[#D1CDCD]" />
                                   </Button>
                                 </TableCell>
                               </TableRow>

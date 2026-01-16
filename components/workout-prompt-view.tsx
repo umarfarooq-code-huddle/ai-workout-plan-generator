@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { SendIcon } from "lucide-react"
+import { Loader2, SendIcon } from "lucide-react"
 
 interface WorkoutPromptViewProps {
   onSubmit: (description: string) => void
@@ -38,8 +38,11 @@ export function WorkoutPromptView({ onSubmit, isLoading }: WorkoutPromptViewProp
             value={description}
             onChange={(e) => setDescription(e.target.value.slice(0, maxChars))}
             onKeyDown={(e) => {
-              if (e.key === "Enter" && e.ctrlKey && description.trim()) {
-                handleSubmit()
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault()
+                if (description.trim()) {
+                  handleSubmit()
+                }
               }
             }}
             disabled={isLoading}
@@ -57,7 +60,7 @@ export function WorkoutPromptView({ onSubmit, isLoading }: WorkoutPromptViewProp
               size="icon"
               className="rounded-full w-10 h-10 bg-blue-200 hover:bg-blue-300 text-white"
             >
-              <SendIcon className="w-5 h-5" />
+              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <SendIcon className="w-5 h-5" />}
             </Button>
           </div>
         </div>
