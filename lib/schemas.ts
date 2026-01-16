@@ -11,6 +11,7 @@ export const ExerciseSchema = z.object({
 
 export const DaySchema = z.object({
   day: z.string(),
+  focus: z.string(),
   exercises: z.array(ExerciseSchema),
 })
 

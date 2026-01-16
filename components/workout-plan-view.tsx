@@ -97,7 +97,15 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
             {currentWeekData.days.map((day) => {
               const dayKey = `${currentWeekData.week}-${day.day}`
               const dayExercises = exercises[dayKey] || []
-              const isRestDay = day.exercises.length === 0 && day.day.toLowerCase().includes("rest")
+              const dayFocus = day.focus?.trim()
+              const isRestDay =
+                dayExercises.length === 0 ||
+                dayExercises.every((ex) => {
+                  const name = ex.name?.toLowerCase() || ""
+                  const notes = ex.notes?.toLowerCase() || ""
+                  return name.includes("rest") || notes.includes("rest")
+                })
+              const headerLabel = isRestDay ? `${day.day} - Rest` : dayFocus ? `${day.day} - ${dayFocus}` : day.day
 
               return (
                 <Card
@@ -107,20 +115,24 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
                   {/* Day title bar */}
                   <div
                     className="flex h-[48px] sm:h-[53px] items-center justify-between rounded-[8px] px-4 sm:px-6"
-                    style={{ backgroundColor: "#cbcdeb" }}
+                    style={{
+                      backgroundColor: isRestDay ? "#E2E2E2" : "#cbcdeb",
+                    }}
                   >
                     <div
                       className="text-[18px] sm:text-[20px] font-medium"
-                      style={{ fontFamily: "'Poppins', sans-serif", color: "#000000", lineHeight: 1.2 }}
+                      style={{
+                        fontFamily: "'Poppins', sans-serif",
+                        color: isRestDay ? "#6b7280" : "#000000",
+                        lineHeight: 1.2,
+                      }}
                     >
-                      {day.day}
+                      {headerLabel}
                     </div>
                     <div className="w-[52px]" />
                   </div>
 
-                  {isRestDay ? (
-                    <div className="px-6 py-10 text-center text-muted-foreground">Rest day</div>
-                  ) : (
+                  {isRestDay ? null : (
                     <div className="overflow-x-auto px-1 py-2">
                       <Table className="w-full min-w-[700px] table-fixed border-separate border-spacing-y-2 border-spacing-x-0">
                         <TableHeader className="[&_tr]:bg-[#F9FAFB]">
@@ -152,65 +164,66 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
                           {dayExercises.length > 0 ? (
                             dayExercises.map((exercise, index) => {
                               const noteText =
-                                exercise.notes && exercise.notes.length > 30
-                                  ? `${exercise.notes.slice(0, 30)}...`
+                                exercise.notes && exercise.notes.length > 50
+                                  ? `${exercise.notes.slice(0, 50)}...`
                                   : exercise.notes
 
-                                const exerciseTitle = exercise.name.length > 20 ? `${exercise.name.slice(0, 20)}...` : exercise.name
+                              const exerciseTitle =
+                                exercise.name.length > 20 ? `${exercise.name.slice(0, 20)}...` : exercise.name
 
                               return (
-                              <TableRow
-                                key={index}
-                                className="h-[48px] sm:h-[53px] text-sm sm:text-sm shadow-sm bg-white rounded-b-md"
-                                style={{ color: "#0F172A" }}
-                              >
-                                <TableCell className="px-2 sm:px-3 align-middle font-medium rounded-bl-md border-r border-[#E5E7EB]">
-                                  {exercise.circuit}
-                                </TableCell>
-                                <TableCell className="px-2 sm:px-3 align-middle border-r border-[#E5E7EB]">
-                                  {exerciseTitle}
-                                </TableCell>
-                                <TableCell className="px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
-                                  {exercise.sets}
-                                </TableCell>
-                                <TableCell className="px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
-                                  {exercise.reps}
-                                </TableCell>
-                                <TableCell
-                                  className="px-2 sm:px-3 align-middle text-sm border-r border-[#E5E7EB]"
-                                  style={{ color: "#6B7280" }}
+                                <TableRow
+                                  key={index}
+                                  className="h-[48px] sm:h-[53px] text-sm sm:text-sm shadow-sm bg-white rounded-b-md"
+                                  style={{ color: "#0F172A" }}
                                 >
-                                  {noteText}
-                                </TableCell>
-                                <TableCell className="px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
-                                  <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-8 w-8"
-                                    onClick={() => deleteExercise(currentWeekData.week, day.day, index)}
+                                  <TableCell className="px-2 sm:px-3 align-middle font-medium rounded-bl-md border-r border-[#E5E7EB]">
+                                    {exercise.circuit}
+                                  </TableCell>
+                                  <TableCell className="px-2 sm:px-3 align-middle border-r border-[#E5E7EB]">
+                                    {exerciseTitle}
+                                  </TableCell>
+                                  <TableCell className="px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
+                                    {exercise.sets}
+                                  </TableCell>
+                                  <TableCell className="px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
+                                    {exercise.reps}
+                                  </TableCell>
+                                  <TableCell
+                                    className="px-2 sm:px-3 align-middle text-sm border-r border-[#E5E7EB] italic"
+                                    style={{ color: "#000000" }}
                                   >
-                                    <Trash2Icon className="w-4 h-4 text-[#D1CDCD]" />
-                                  </Button>
-                                </TableCell>
-                                <TableCell className="px-2 sm:px-3 align-middle text-center rounded-br-md">
-                                  <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-8 w-8 "
-                                    onClick={(e) =>
-                                      moveExercise(
-                                        currentWeekData.week,
-                                        day.day,
-                                        index,
-                                        e.shiftKey ? "up" : "down",
-                                      )
-                                    }
-                                    title="Click to move down, Shift+Click to move up"
-                                  >
-                                    <ArrowUpDownIcon className="w-4 h-4 text-[#D1CDCD]" />
-                                  </Button>
-                                </TableCell>
-                              </TableRow>
+                                    {noteText}
+                                  </TableCell>
+                                  <TableCell className="px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="h-8 w-8"
+                                      onClick={() => deleteExercise(currentWeekData.week, day.day, index)}
+                                    >
+                                      <Trash2Icon className="w-4 h-4 text-[#D1CDCD]" />
+                                    </Button>
+                                  </TableCell>
+                                  <TableCell className="px-2 sm:px-3 align-middle text-center rounded-br-md">
+                                    <Button
+                                      variant="ghost"
+                                      size="icon"
+                                      className="h-8 w-8 "
+                                      onClick={(e) =>
+                                        moveExercise(
+                                          currentWeekData.week,
+                                          day.day,
+                                          index,
+                                          e.shiftKey ? "up" : "down",
+                                        )
+                                      }
+                                      title="Click to move down, Shift+Click to move up"
+                                    >
+                                      <ArrowUpDownIcon className="w-4 h-4 text-[#D1CDCD]" />
+                                    </Button>
+                                  </TableCell>
+                                </TableRow>
                               )
                             })
                           ) : (

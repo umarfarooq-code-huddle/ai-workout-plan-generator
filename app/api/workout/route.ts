@@ -12,7 +12,7 @@ export async function POST(request: Request) {
       return new Response(JSON.stringify({ error: "Please describe your workout needs" }), { status: 400 })
     }
 
-    const result = await generateObject({
+const result = await generateObject({
       model: openai("gpt-4o-mini"),
       schema: WorkoutPlanSchema,
       prompt: `Create a comprehensive 4-week workout plan based on this description: "${userDescription}"
@@ -22,6 +22,8 @@ The plan should include:
 - 4 weeks of progressive training
 - Each week should have 4-5 workout days
 - Include rest days labeled as "Rest"
+- Name days as Day 1, Day 2, Day 3, Day 4, Day 5, Day 6, Day 7 (Do not use any other names)
+- For each day, include a short focus/title (e.g., "Upper Body Strength", "Lower Body & Core", "Conditioning", or "Rest") and return it as the "focus" field
 - Each exercise should have: circuit letter (A, B, C, etc.), exercise name, sets, reps, and AI-generated notes
 - Format reps as "12,10,8" for descending or "10-12" for ranges
 - Include realistic rest periods

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
-import { Loader2, SendIcon } from "lucide-react"
+import { Loader2, SendHorizonalIcon, SendIcon } from "lucide-react"
 
 interface WorkoutPromptViewProps {
   onSubmit: (description: string) => void
@@ -21,6 +21,8 @@ export function WorkoutPromptView({ onSubmit, isLoading }: WorkoutPromptViewProp
 
   const charCount = description.length
   const maxChars = 1000
+  const isDescriptionPresent = Boolean(description.trim())
+  const isDisabled = !isDescriptionPresent || isLoading
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
@@ -56,11 +58,15 @@ export function WorkoutPromptView({ onSubmit, isLoading }: WorkoutPromptViewProp
             </span>
             <Button
               onClick={handleSubmit}
-              disabled={!description.trim() || isLoading}
+              disabled={isDisabled}
               size="icon"
-              className="rounded-full w-10 h-10 bg-blue-200 hover:bg-blue-300 text-white"
+              className={`rounded-full w-10 h-10 border-0 ${isDisabled ? "" : "hover:opacity-90"}`}
+              style={{
+                backgroundColor: isDisabled ? "rgba(99, 103, 239, 0.2)" : "#6367EF",
+                color: isDisabled ? "#6367EF" : "#FFFFFF",
+              }}
             >
-              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <SendIcon className="w-5 h-5" />}
+              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <SendHorizonalIcon className="w-5 h-5" />}
             </Button>
           </div>
         </div>
