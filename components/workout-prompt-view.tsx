@@ -55,7 +55,7 @@ export function WorkoutPromptView({ onSubmit, isLoading }: WorkoutPromptViewProp
               onClick={handleSubmit}
               disabled={!description.trim() || isLoading}
               size="icon"
-              className="rounded-full w-10 h-10 bg-primary hover:bg-primary/90"
+              className="rounded-full w-10 h-10 bg-blue-200 hover:bg-blue-300 text-white"
             >
               <SendIcon className="w-5 h-5" />
             </Button>

@@ -73,16 +73,16 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
   }
 
   return (
-    <div className="min-h-screen bg-[#f5f5f7] text-foreground px-4 pb-10 pt-6 md:px-6">
+    <div className="min-h-screen bg-[#f5f5f7] text-foreground px-3 pb-10 pt-4 sm:px-4 md:px-6 md:pt-6">
       {/* Week navigation pills (Figma 1:2275) */}
       <Tabs value={activeWeek} onValueChange={setActiveWeek} className="w-full max-w-6xl mx-auto">
         <div className="flex items-center justify-between">
-          <TabsList className="flex gap-[10px] bg-transparent p-0 mb-[100px]">
+          <TabsList className="flex gap-2 md:gap-[10px] bg-transparent p-0 mb-10 md:mb-[100px]">
             {plan.weeks.map((week) => (
               <TabsTrigger
                 key={week.week}
                 value={week.week.toString()}
-                className="h-10 px-2 rounded-[6px] text-[16px] font-medium leading-[1.5] min-w-[77px] justify-center data-[state=active]:bg-[#6367EF] data-[state=active]:text-white data-[state=inactive]:bg-white data-[state=inactive]:text-black shadow-none border-0"
+                className="h-10 px-2 rounded-[6px] text-[15px] md:text-[16px] font-medium leading-[1.5] min-w-[72px] md:min-w-[77px] justify-center data-[state=active]:bg-[#6367EF] data-[state=active]:text-white data-[state=inactive]:bg-white data-[state=inactive]:text-black shadow-none border-0"
                 style={{ fontFamily: "'Poppins', sans-serif" }}
               >
                 Week {week.week}
@@ -106,11 +106,11 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
                 >
                   {/* Day title bar */}
                   <div
-                    className="flex h-[53px] items-center justify-between rounded-[8px] px-6"
+                    className="flex h-[48px] sm:h-[53px] items-center justify-between rounded-[8px] px-4 sm:px-6"
                     style={{ backgroundColor: "#cbcdeb" }}
                   >
                     <div
-                      className="text-[20px] font-medium"
+                      className="text-[18px] sm:text-[20px] font-medium"
                       style={{ fontFamily: "'Poppins', sans-serif", color: "#000000", lineHeight: 1.2 }}
                     >
                       {day.day}
@@ -122,59 +122,65 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
                     <div className="px-6 py-10 text-center text-muted-foreground">Rest day</div>
                   ) : (
                     <div className="overflow-x-auto px-1 py-2">
-                      <Table className="table-fixed border-separate border-spacing-y-2 border-spacing-x-0">
+                      <Table className="w-full min-w-[700px] table-fixed border-separate border-spacing-y-2 border-spacing-x-0">
                         <TableHeader className="[&_tr]:bg-[#F9FAFB]">
                           <TableRow className="text-xs font-semibold uppercase tracking-wide text-[#111827]">
-                            <TableHead className="h-[53px] w-[85px] px-3 align-middle text-left border-r border-[#E5E7EB] rounded-tl-md rounded-bl-md">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[85px] px-2 sm:px-3 align-middle text-left border-r border-[#E5E7EB] rounded-tl-md rounded-bl-md">
                               Circuits
                             </TableHead>
-                            <TableHead className="h-[53px] w-[212px] px-3 align-middle text-left border-r border-[#E5E7EB]">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[212px] px-2 sm:px-3 align-middle text-left border-r border-[#E5E7EB]">
                               Exercise
                             </TableHead>
-                            <TableHead className="h-[53px] w-[100px] px-3 align-middle text-center border-r border-[#E5E7EB]">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[100px] px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
                               Sets
                             </TableHead>
-                            <TableHead className="h-[53px] w-[120px] px-3 align-middle text-center border-r border-[#E5E7EB]">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[120px] px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
                               Reps
                             </TableHead>
-                            <TableHead className="h-[53px] w-[203px] px-3 align-middle text-left border-r border-[#E5E7EB]">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[203px] px-2 sm:px-3 align-middle text-left border-r border-[#E5E7EB]">
                               Notes
                             </TableHead>
-                            <TableHead className="h-[53px] w-[52px] px-3 align-middle text-center border-r border-[#E5E7EB]">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[52px] px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
                               Del
                             </TableHead>
-                            <TableHead className="h-[53px] w-[52px] px-3 align-middle text-center rounded-tr-md rounded-br-md">
+                            <TableHead className="h-[48px] sm:h-[53px] w-[52px] px-2 sm:px-3 align-middle text-center rounded-tr-md rounded-br-md">
                               Rep
                             </TableHead>
                           </TableRow>
                         </TableHeader>
                         <TableBody>
                           {dayExercises.length > 0 ? (
-                            dayExercises.map((exercise, index) => (
+                            dayExercises.map((exercise, index) => {
+                              const noteText =
+                                exercise.notes && exercise.notes.length > 30
+                                  ? `${exercise.notes.slice(0, 30)}...`
+                                  : exercise.notes
+
+                              return (
                               <TableRow
                                 key={index}
-                                className="h-[53px] text-sm shadow-sm bg-white rounded-b-md"
+                                className="h-[48px] sm:h-[53px] text-sm sm:text-sm shadow-sm bg-white rounded-b-md"
                                 style={{ color: "#0F172A" }}
                               >
-                                <TableCell className="px-3 align-middle font-medium rounded-bl-md border-r border-[#E5E7EB]">
+                                <TableCell className="px-2 sm:px-3 align-middle font-medium rounded-bl-md border-r border-[#E5E7EB]">
                                   {exercise.circuit}
                                 </TableCell>
-                                <TableCell className="px-3 align-middle border-r border-[#E5E7EB]">
+                                <TableCell className="px-2 sm:px-3 align-middle border-r border-[#E5E7EB]">
                                   {exercise.name}
                                 </TableCell>
-                                <TableCell className="px-3 align-middle text-center border-r border-[#E5E7EB]">
+                                <TableCell className="px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
                                   {exercise.sets}
                                 </TableCell>
-                                <TableCell className="px-3 align-middle text-center border-r border-[#E5E7EB]">
+                                <TableCell className="px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
                                   {exercise.reps}
                                 </TableCell>
                                 <TableCell
-                                  className="px-3 align-middle text-sm border-r border-[#E5E7EB]"
+                                  className="px-2 sm:px-3 align-middle text-sm border-r border-[#E5E7EB]"
                                   style={{ color: "#6B7280" }}
                                 >
-                                  {exercise.notes}
+                                  {noteText}
                                 </TableCell>
-                                <TableCell className="px-3 align-middle text-center border-r border-[#E5E7EB]">
+                                <TableCell className="px-2 sm:px-3 align-middle text-center border-r border-[#E5E7EB]">
                                   <Button
                                     variant="ghost"
                                     size="icon"
@@ -184,13 +190,27 @@ export function WorkoutPlanView({ plan, onBack }: WorkoutPlanViewProps) {
                                     <Trash2Icon className="w-4 h-4" />
                                   </Button>
                                 </TableCell>
-                                <TableCell className="px-3 align-middle text-center rounded-br-md">
-                                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <TableCell className="px-2 sm:px-3 align-middle text-center rounded-br-md">
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8"
+                                    onClick={(e) =>
+                                      moveExercise(
+                                        currentWeekData.week,
+                                        day.day,
+                                        index,
+                                        e.shiftKey ? "up" : "down",
+                                      )
+                                    }
+                                    title="Click to move down, Shift+Click to move up"
+                                  >
                                     <ArrowUpDownIcon className="w-4 h-4" />
                                   </Button>
                                 </TableCell>
                               </TableRow>
-                            ))
+                              )
+                            })
                           ) : (
                             <TableRow className="h-[53px]">
                               <TableCell colSpan={7} className="py-8 text-center text-muted-foreground">
