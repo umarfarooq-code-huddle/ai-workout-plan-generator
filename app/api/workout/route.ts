@@ -19,7 +19,7 @@ const result = await generateObject({
       
 The plan should include:
 - A descriptive plan name
-- 4 weeks of progressive training
+- 4 weeks of progressive training. Always Generate a 4 week plan.
 - Each week should have 4-5 workout days
 - Include rest days labeled as "Rest"
 - Name days as Day 1, Day 2, Day 3, Day 4, Day 5, Day 6, Day 7 (Do not use any other names)
