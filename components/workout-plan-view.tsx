@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Card } from "@/components/ui/card"
-import { Trash2Icon, RefreshCwIcon, ArrowUpDownIcon } from "lucide-react"
+import { Trash2Icon, RefreshCwIcon, ArrowUpDownIcon, ArrowUpRightIcon } from "lucide-react"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -115,6 +115,12 @@ export function WorkoutPlanView({ plan, onBack, planId }: WorkoutPlanViewProps) 
 
   return (
     <div className="min-h-screen bg-[#f5f5f7] text-foreground px-3 pb-10 pt-4 sm:px-4 md:px-6 md:pt-6 plan-reveal">
+      <header className="w-full mb-10 flex items-center justify-center bg-white py-6 px-4">
+        <div className="flex items-center gap-1 text-[26px] md:text-[28px] font-semibold text-black leading-none">
+          <span style={{ fontFamily: "'Poppins', sans-serif" }}>Maxed</span>
+          <ArrowUpRightIcon className="h-6 w-6 md:h-7 md:w-7" />
+        </div>
+      </header>
       {/* Week navigation pills (Figma 1:2275) */}
       <Tabs value={activeWeek} onValueChange={setActiveWeek} className="w-full max-w-6xl mx-auto">
         <div className="flex items-center justify-between">
