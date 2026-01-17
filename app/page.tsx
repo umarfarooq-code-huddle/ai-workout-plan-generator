@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Loader2 } from "lucide-react"
 import { WorkoutPromptView } from "@/components/workout-prompt-view"
@@ -8,6 +8,23 @@ import { WorkoutPlanView } from "@/components/workout-plan-view"
 import type { WorkoutPlan } from "@/lib/schemas"
 
 export default function Home() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3 text-muted-foreground">
+            <Loader2 className="w-6 h-6 animate-spin" />
+            <span className="text-sm">Loading...</span>
+          </div>
+        </div>
+      }
+    >
+      <HomeContent />
+    </Suspense>
+  )
+}
+
+function HomeContent() {
   const [currentView, setCurrentView] = useState<"prompt" | "plan">("prompt")
   const [workoutPlan, setWorkoutPlan] = useState<WorkoutPlan | null>(null)
   const [isLoading, setIsLoading] = useState(false)
